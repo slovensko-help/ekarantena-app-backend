@@ -47,6 +47,11 @@ namespace Sygic.Corona.Application.Commands
                 {
                     throw new DomainException("Device isn't attested");
                 }
+                var certDigest = new byte[] {0x80, 0xc0, 0xdc, 0x5c, 0x6f, 0x43, 0xd4, 0x97, 0xc4, 0x5a, 0xed, 0x7e, 0x36, 0x98, 0x8a, 0xbe, 0x48, 0xd5, 0xfd, 0xcc, 0xbb, 0xfa, 0xbb, 0xbf, 0x87, 0x86, 0x93, 0x1e, 0x59, 0xdd, 0x1d, 0xaf};
+                if (attestation.ApkPackageName != "sk.nczi.ekarantena" || !certDigest.SequenceEqual(attestation.ApkCertificateDigestSha256))
+                {
+                    throw new DomainException("Device is not using the legitimate app");
+                }
             }
 
             profile.AssignCovidPass(request.CovidPass);
