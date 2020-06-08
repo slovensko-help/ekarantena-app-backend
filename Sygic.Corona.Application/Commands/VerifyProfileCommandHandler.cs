@@ -43,7 +43,7 @@ namespace Sygic.Corona.Application.Commands
             {
                 var attestation = androidAttestation.ParseAndVerify(request.SignedAttestationStatement);
 
-                if (attestation == null)
+                if (attestation == null || !attestation.BasicIntegrity || !attestation.CtsProfileMatch)
                 {
                     throw new DomainException("Device isn't attested");
                 }
